@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MainComponent } from './components/main/main.component';
-import { SpacebgComponent } from './components/spacebg/spacebg.component';
+import { MainComponent } from 'components/main/main.component';
+import { SpacebgComponent } from 'components/spacebg/spacebg.component';
 
 @Component({
   selector: 'app-root',

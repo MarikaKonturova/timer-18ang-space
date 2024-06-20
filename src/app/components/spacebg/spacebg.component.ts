@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Stars } from '../../models/stars.model';
+import { Stars } from 'models/stars.model';
 
 @Component({
   selector: 'app-spacebg',

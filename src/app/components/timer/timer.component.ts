@@ -4,13 +4,14 @@ import {
   Component,
   DestroyRef,
   OnInit,
-  inject
+  inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { interval, map } from 'rxjs';
-import { SecondsToMinSecPipe } from '../../pipes/seconds-to-min-sec.pipe';
-import { SettingsService } from '../../services/settings.service';
-import { TimerService } from '../../services/timer.service';
+
+import { TimerService } from 'services/timer.service';
+import { SettingsService } from 'services/settings.service';
+import { SecondsToMinSecPipe } from 'pipes/seconds-to-min-sec.pipe';
 
 @Component({
   selector: 'app-timer',

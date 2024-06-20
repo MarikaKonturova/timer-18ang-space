@@ -6,12 +6,12 @@ import {
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Mode } from '../../models/mode.model';
-import { SecondsToMinSecPipe } from '../../pipes/seconds-to-min-sec.pipe';
-import { SettingsService } from '../../services/settings.service';
-import { SettingsComponent } from '../settings/settings.component';
-import { SuccessComponent } from '../success/success.component';
-import { TimerComponent } from '../timer/timer.component';
+import { SettingsComponent } from 'components/settings/settings.component';
+import { SuccessComponent } from 'components/success/success.component';
+import { TimerComponent } from 'components/timer/timer.component';
+import { Mode } from 'models/mode.model';
+import { SecondsToMinSecPipe } from 'pipes/seconds-to-min-sec.pipe';
+import { SettingsService } from 'services/settings.service';
 
 @Component({
   selector: 'app-main',
