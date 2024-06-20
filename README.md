@@ -1,27 +1,16 @@
 # Timer18angSpace
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.4.
+## todo
+- ng-templates for storing part of image depends on data from input-range
+- auth with realworld api 
+- localstorage for saving data about time
+- maybe json-placeholder {[id]:{complete:{time, count}, successful: {time, count}}} or firebase (will be from(promise))
+- maybe table with showing data about all sessions
+- maybe user can shoose  
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## questions
+- not component but simple template?
+- how to insert local images into app
+- make own pipe that shows min:sec from sec (+)
+- service or main component? how to trigger func to render success when timer is 0 (why do  we need context if we can just pass output/input or just {{variable}} inside ng-template)
+- changeDet.strategy works for all children by default. is it costy for component that really don't need it (rerender for ex. every second)?

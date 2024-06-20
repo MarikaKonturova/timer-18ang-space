@@ -1,0 +1,47 @@
+:host {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  background: #000022; /* Dark blue background */
+  background-image: linear-gradient(
+    to left top,
+    #e713e7,
+    #c21acf,
+    #9e1bb5,
+    #7e199b,
+    #5f1581,
+    #4c1573,
+    #3b1365,
+    #2b1056,
+    #21104f,
+    #171048,
+    #0d0f41,
+    #060c39
+  );
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  z-index: 0;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  animation: sparkle 2s infinite;
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}

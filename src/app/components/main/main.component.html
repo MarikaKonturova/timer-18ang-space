@@ -1,0 +1,20 @@
+<div>
+  <h2>Countdown Timer</h2>
+</div>
+<app-spacebg></app-spacebg>
+<ng-container #cont></ng-container>
+
+<ng-template #settings>
+  <app-settings (timerChange)="start($event)"></app-settings>
+</ng-template>
+
+<ng-template #timer>
+  <app-timer [timer]="seconds" (modeChange)="changeMode($event)"></app-timer>
+</ng-template>
+
+<ng-template #success>
+  <app-success></app-success>
+  <button>Got it!</button>
+</ng-template>
+
+<div class="space"></div>
