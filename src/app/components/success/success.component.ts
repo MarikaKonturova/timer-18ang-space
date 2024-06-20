@@ -1,8 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
+  Component
 } from '@angular/core';
 import { SettingsService } from '../../services/settings.service';
 

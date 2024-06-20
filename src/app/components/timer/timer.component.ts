@@ -2,15 +2,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
-  Input,
   OnDestroy,
   OnInit,
-  Output,
   inject,
 } from '@angular/core';
+import { Subject, interval, map, takeUntil } from 'rxjs';
 import { SecondsToMinSecPipe } from '../../pipes/seconds-to-min-sec.pipe';
 import { SettingsService } from '../../services/settings.service';
+import { TimerService } from '../../services/timer.service';
 
 @Component({
   selector: 'app-timer',
@@ -21,26 +20,37 @@ import { SettingsService } from '../../services/settings.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimerComponent implements OnInit, OnDestroy {
-  constructor(private settingsService: SettingsService) {}
-
-  @Input() timer!: number;
-  timerId = 0;
-  time = 0;
+  readonly destroy$ = new Subject<void>();
+  seconds = 0;
   cdr = inject(ChangeDetectorRef);
 
-  ngOnInit(): void {
-    this.time = this.timer;
-    this.start();
+  constructor(
+    private settingsService: SettingsService,
+    private timerService: TimerService
+  ) {
+    this.timerService.getSeconds
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((seconds) => {
+        this.seconds = seconds;
+        this.cdr.markForCheck();
+      });
   }
-  start() {
-    this.timerId = +setInterval(() => {
-      if (this.time > 0) {
-        this.time--;
-      } else {
-        this.success();
-      }
-      this.cdr.markForCheck();
-    }, 1000);
+
+  ngOnInit(): void {
+    this.startTimer();
+  }
+  startTimer(): void {
+    interval(1000)
+      .pipe(
+        takeUntil(this.destroy$),
+        map(() => this.seconds--)
+      )
+      .subscribe((seconds) => {
+        this.cdr.markForCheck();
+        if (seconds === 0) {
+          this.success();
+        }
+      });
   }
 
   cancel() {
@@ -51,6 +61,7 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    clearInterval(this.timerId);
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

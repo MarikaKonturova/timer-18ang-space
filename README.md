@@ -2,24 +2,17 @@
 
 ## todo
 
+- change the name of settings component or settings service
+- make img render in main/html more like did it w/ ngTemplateOutlet
 - accelerate uploading of images
 - auth with realworld api
 - localstorage for saving time data in timer
 - maybe json-placeholder {[id]:{complete:{time, count}, successful: {time, count}}} or firebase (will be from(promise))
 - maybe table with showing data about all sessions
-- maybe user can shoose
 
 ## questions
 
-- not component but simple template?
-- make own pipe that shows min:sec from sec (+)
-- service or main component? how to trigger func to render success when timer is 0 (why do we need context if we can just pass output/input or just {{variable}} inside ng-template)
-  v2
-- when you need to delete refs
-- whats the difference between inject(service) and constructor(private servise: Service)
-
-## mentor
-
-- check the types in app/comonents/main:
-  - `createEmbeddedView<SettingsComponent | TimerComponent | SuccessComponent>`
-  - `EmbeddedViewRef<SettingsComponent | TimerComponent | SuccessComponent>`
+- emit on every input change in settings/component - is the an another solution?
+- when you need to delete refs (home!)
+- check the render of components (home?)
+- whats the difference between inject(service) and constructor(private servise: Service) (home?)

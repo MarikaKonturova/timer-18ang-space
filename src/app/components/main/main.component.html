@@ -1,25 +1,24 @@
-<h2>Countdown Timer</h2>
+<main>
+  <div class="container">
+    <h2>Countdown Timer</h2>
+    @if (seconds >=80*60) {
+    <img
+      src="assets/images/manTimer80.png"
+      height="200px"
+      alt="the happiest man"
+    />
 
-@if (seconds >=80*60) {
-<img src="assets/images/manTimer80.png" alt="the happiest man" />
+    } @else if(seconds > 40*60){
+    <img
+      src="assets/images/manTimer40.png"
+      height="200px"
+      alt="very happy man"
+    />
 
-} @else if(seconds > 40*60){
-<img src="assets/images/manTimer40.png" alt="very happy man" />
+    }@else {
+    <img src="assets/images/manTimer.png" height="200px" alt="happy man" />
+    }
 
-}@else {
-<img src="assets/images/manTimer.png" alt="happy man" />
-
-}
-<ng-container #cont></ng-container>
-
-<ng-template #settings>
-  <app-settings (timeChange)="changeTime($event)"></app-settings>
-</ng-template>
-
-<ng-template #timer>
-  <app-timer [timer]="seconds"></app-timer>
-</ng-template>
-
-<ng-template #success>
-  <app-success></app-success>
-</ng-template>
+    <ng-container *ngComponentOutlet="components[mode]"></ng-container>
+  </div>
+</main>

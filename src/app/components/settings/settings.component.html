@@ -7,15 +7,15 @@
 /><span>
   {{ minutes }}
 </span>
-@if (error) {
-<div>
-  <p>time is truly relative...</p>
-  <img
-    src="./assets/images/einsteinIsImpressed.png"
-    alt="einstein was here but he was waiting you so long so he dissapeared"
-  />
-  <p>...but not that much</p>
-</div>
-}
-
 <button (click)="start()">Start session</button>
+@if (error) {
+  <div class="errorContainer">
+    <p>time is truly relative...</p>
+    <img
+      src="./assets/images/einsteinIsImpressed.png"
+      class="errorImage"
+      alt="einstein was here but he was waiting you so long so he dissapeared"
+    />
+    <p>...but not that much</p>
+  </div>
+  }

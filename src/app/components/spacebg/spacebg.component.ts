@@ -1,20 +1,27 @@
-import {
-  Component,
-  OnInit,
-  Renderer2,
-  ElementRef,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Stars } from '../../models/stars.model';
 
 @Component({
   selector: 'app-spacebg',
   standalone: true,
-  template: ``,
+  template: `
+    <div class="starsContainer">
+      @for (star of stars; track $index) {
+      <div
+        [class]="star.class"
+        [style.top]="star.top"
+        [style.left]="star.left"
+        [style.animation-delay]="star.animationDelay"
+      ></div>
+      }
+    </div>
+  `,
   styleUrl: './spacebg.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpacebgComponent implements OnInit {
-  constructor(private renderer: Renderer2, private el: ElementRef) {}
+  constructor() {}
+  stars: Stars[] = [];
 
   ngOnInit(): void {
     this.createStars(200);
@@ -22,12 +29,12 @@ export class SpacebgComponent implements OnInit {
 
   createStars(count: number): void {
     for (let i = 0; i < count; i++) {
-      const star = this.renderer.createElement('div');
-      this.renderer.addClass(star, 'star');
-      this.renderer.setStyle(star, 'top', `${Math.random() * 100}%`);
-      this.renderer.setStyle(star, 'left', `${Math.random() * 100}%`);
-      this.renderer.setStyle(star, 'animationDelay', `${Math.random() * 10}s`);
-      this.renderer.appendChild(this.el.nativeElement, star);
+      this.stars.push({
+        class: 'star',
+        top: `${Math.random() * 100}%`,
+        left: `${Math.random() * 100}%`,
+        animationDelay: `${Math.random() * 10}s`,
+      });
     }
   }
 }

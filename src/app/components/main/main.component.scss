@@ -1,0 +1,15 @@
+main {
+  width: 100vw;
+  height: 100vh;
+}
+.container {
+  height: 70vh;
+  width: 80%;
+  margin: auto;
+  padding-top: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 50px;
+  align-items: center;
+}

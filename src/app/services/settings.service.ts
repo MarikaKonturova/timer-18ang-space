@@ -7,12 +7,10 @@ import { Mode } from '../models/mode.model';
 })
 export class SettingsService {
   private mode = new BehaviorSubject<Mode>('settings');
-
   changeMode(newMode: Mode) {
     this.mode.next(newMode);
   }
-  //do we need this get to update observable in the components?
-  get getMode(){
+  get getMode() {
     return this.mode.asObservable();
   }
 }
