@@ -14,6 +14,9 @@ import { SettingsComponent } from '../settings/settings.component';
 import { TimerComponent } from '../timer/timer.component';
 import { SuccessComponent } from '../success/success.component';
 import { SecondsToMinSecPipe } from '../../pipes/seconds-to-min-sec.pipe';
+import { SettingsService } from '../../services/settings.service';
+import { Mode } from '../../models/mode.model';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-main',
@@ -27,10 +30,10 @@ import { SecondsToMinSecPipe } from '../../pipes/seconds-to-min-sec.pipe';
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 
-  //?? do we really need changeDet.onPush for the main component? i think we don't, but we will see
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainComponent implements OnDestroy, OnInit {
+  readonly destroy$ = new Subject<void>();
   @ViewChild('cont', { static: true, read: ViewContainerRef })
   containerRef!: ViewContainerRef;
   @ViewChild('settings', { static: true, read: TemplateRef })
@@ -41,10 +44,19 @@ export class MainComponent implements OnDestroy, OnInit {
   successRef!: TemplateRef<SuccessComponent>;
   cdr = inject(ChangeDetectorRef);
   seconds = 0;
-  mode: 'settings' | 'timer' | 'success' = 'settings';
+  mode!: Mode;
   embeddedViewRefs: EmbeddedViewRef<
     SettingsComponent | TimerComponent | SuccessComponent
   >[] = [];
+
+  constructor(private settingsService: SettingsService) {
+    this.settingsService.getMode
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((mode) => {
+        this.mode = mode;
+        this.renderDyanmicTemplates();
+      });
+  }
 
   ngOnInit(): void {
     this.renderDyanmicTemplates();
@@ -72,14 +84,12 @@ export class MainComponent implements OnDestroy, OnInit {
 
   changeTime(minutes: number) {
     this.seconds = minutes * 60;
-    // this.changeMode('timer');
   }
 
-  changeMode(mode: 'settings' | 'timer' | 'success') {
-    this.mode = mode;
-    this.renderDyanmicTemplates();
-  }
+  //TODO delete
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     for (const viewRef of this.embeddedViewRefs) {
       if (viewRef) {
         viewRef.destroy();

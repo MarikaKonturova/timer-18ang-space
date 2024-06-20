@@ -13,16 +13,13 @@
 <ng-container #cont></ng-container>
 
 <ng-template #settings>
-  <app-settings
-    (timeChange)="changeTime($event)"
-    (modeChange)="changeMode($event)"
-  ></app-settings>
+  <app-settings (timeChange)="changeTime($event)"></app-settings>
 </ng-template>
 
 <ng-template #timer>
-  <app-timer [timer]="seconds" (modeChange)="changeMode($event)"></app-timer>
+  <app-timer [timer]="seconds"></app-timer>
 </ng-template>
 
 <ng-template #success>
-  <app-success (modeChange)="changeMode($event)"></app-success>
+  <app-success></app-success>
 </ng-template>

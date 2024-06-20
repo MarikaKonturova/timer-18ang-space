@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Output,
+} from '@angular/core';
+import { SettingsService } from '../../services/settings.service';
 
 @Component({
   selector: 'app-success',
@@ -9,10 +15,12 @@ import { Component, EventEmitter, Output } from '@angular/core';
     <button (click)="backToMain()">Got it!</button>
   `,
   styleUrl: './success.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SuccessComponent {
-  @Output() modeChange = new EventEmitter<'settings' | 'timer' | 'success'>();
+  constructor(private settingsService: SettingsService) {}
+
   backToMain() {
-    this.modeChange.emit('settings');
+    this.settingsService.changeMode('settings');
   }
 }

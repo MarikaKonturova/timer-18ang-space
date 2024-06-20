@@ -1,5 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SettingsService } from '../../services/settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -7,12 +13,14 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsComponent {
   minutes = 0;
   error = false;
   @Output() timeChange = new EventEmitter<number>();
-  @Output() modeChange = new EventEmitter<'settings' | 'timer' | 'success'>();
+
+  constructor(private settingsService: SettingsService) {}
 
   onInputChange() {
     if (this.minutes > 0) {
@@ -24,7 +32,7 @@ export class SettingsComponent {
     if (this.minutes === 0) {
       this.error = true;
     } else {
-      this.modeChange.emit('timer');
+      this.settingsService.changeMode('timer');
     }
   }
 }

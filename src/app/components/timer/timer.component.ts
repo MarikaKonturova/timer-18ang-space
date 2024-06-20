@@ -10,6 +10,7 @@ import {
   inject,
 } from '@angular/core';
 import { SecondsToMinSecPipe } from '../../pipes/seconds-to-min-sec.pipe';
+import { SettingsService } from '../../services/settings.service';
 
 @Component({
   selector: 'app-timer',
@@ -17,11 +18,12 @@ import { SecondsToMinSecPipe } from '../../pipes/seconds-to-min-sec.pipe';
   imports: [SecondsToMinSecPipe],
   templateUrl: './timer.component.html',
   styleUrl: './timer.component.scss',
-
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimerComponent implements OnInit, OnDestroy {
+  constructor(private settingsService: SettingsService) {}
+
   @Input() timer!: number;
-  @Output() modeChange = new EventEmitter<'settings' | 'timer' | 'success'>();
   timerId = 0;
   time = 0;
   cdr = inject(ChangeDetectorRef);
@@ -35,17 +37,17 @@ export class TimerComponent implements OnInit, OnDestroy {
       if (this.time > 0) {
         this.time--;
       } else {
-        this.modeChange.emit('success');
+        this.success();
       }
       this.cdr.markForCheck();
     }, 1000);
   }
 
   cancel() {
-    this.modeChange.emit('settings');
+    this.settingsService.changeMode('settings');
   }
   success() {
-    this.modeChange.emit('success');
+    this.settingsService.changeMode('success');
   }
 
   ngOnDestroy() {
