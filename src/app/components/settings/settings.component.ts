@@ -1,11 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SettingsService } from 'services/settings.service';
 import { TimerService } from 'services/timer.service';
-
 
 @Component({
   selector: 'app-settings',
@@ -39,4 +35,3 @@ export class SettingsComponent {
     }
   }
 }
-

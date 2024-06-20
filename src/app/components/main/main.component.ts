@@ -9,6 +9,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SettingsComponent } from 'components/settings/settings.component';
 import { SuccessComponent } from 'components/success/success.component';
 import { TimerComponent } from 'components/timer/timer.component';
+import { Components } from 'models/components.model';
 import { Mode } from 'models/mode.model';
 import { SecondsToMinSecPipe } from 'pipes/seconds-to-min-sec.pipe';
 import { SettingsService } from 'services/settings.service';
@@ -29,7 +30,7 @@ import { SettingsService } from 'services/settings.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainComponent {
-  components: Record<Mode, any> = {
+  components: Record<Mode, Components> = {
     settings: SettingsComponent,
     timer: TimerComponent,
     success: SuccessComponent,

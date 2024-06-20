@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Stars } from 'models/stars.model';
+import { Stars } from '../../models/stars.model';
 
 @Component({
   selector: 'app-spacebg',
@@ -20,7 +20,6 @@ import { Stars } from 'models/stars.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpacebgComponent implements OnInit {
-  constructor() {}
   stars: Stars[] = [];
 
   ngOnInit(): void {
