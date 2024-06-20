@@ -3,7 +3,7 @@
   min="0"
   max="120"
   [(ngModel)]="minutes"
-  (input)="onInputChange()"
+  (ngModelChange)="onInputChange()"
 /><span>
   {{ minutes }}
 </span>

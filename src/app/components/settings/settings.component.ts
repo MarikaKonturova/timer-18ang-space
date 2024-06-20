@@ -11,17 +11,20 @@ import { FormsModule } from '@angular/forms';
 export class SettingsComponent {
   minutes = 0;
   error = false;
-  @Output() timerChange = new EventEmitter<number>();
+  @Output() timeChange = new EventEmitter<number>();
+  @Output() modeChange = new EventEmitter<'settings' | 'timer' | 'success'>();
+
   onInputChange() {
     if (this.minutes > 0) {
       this.error = false;
     }
+    this.timeChange.emit(this.minutes);
   }
   start() {
     if (this.minutes === 0) {
       this.error = true;
     } else {
-      this.timerChange.emit(this.minutes);
+      this.modeChange.emit('timer');
     }
   }
 }

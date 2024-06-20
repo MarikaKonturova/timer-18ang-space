@@ -70,9 +70,9 @@ export class MainComponent implements OnDestroy, OnInit {
     this.cdr.detectChanges();
   }
 
-  start(minutes: number) {
+  changeTime(minutes: number) {
     this.seconds = minutes * 60;
-    this.changeMode('timer');
+    // this.changeMode('timer');
   }
 
   changeMode(mode: 'settings' | 'timer' | 'success') {
