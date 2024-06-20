@@ -1,8 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
+  Component
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SettingsService } from '../../services/settings.service';
@@ -19,7 +17,6 @@ import { TimerService } from '../../services/timer.service';
 export class SettingsComponent {
   minutes = 0;
   error = false;
-  @Output() timeChange = new EventEmitter<number>();
 
   constructor(
     private settingsService: SettingsService,

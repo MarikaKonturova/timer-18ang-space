@@ -2,11 +2,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnDestroy,
+  DestroyRef,
   OnInit,
-  inject,
+  inject
 } from '@angular/core';
-import { Subject, interval, map, takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { interval, map } from 'rxjs';
 import { SecondsToMinSecPipe } from '../../pipes/seconds-to-min-sec.pipe';
 import { SettingsService } from '../../services/settings.service';
 import { TimerService } from '../../services/timer.service';
@@ -19,8 +20,8 @@ import { TimerService } from '../../services/timer.service';
   styleUrl: './timer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TimerComponent implements OnInit, OnDestroy {
-  readonly destroy$ = new Subject<void>();
+export class TimerComponent implements OnInit {
+  destroyRef = inject(DestroyRef);
   seconds = 0;
   cdr = inject(ChangeDetectorRef);
 
@@ -29,7 +30,7 @@ export class TimerComponent implements OnInit, OnDestroy {
     private timerService: TimerService
   ) {
     this.timerService.getSeconds
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed())
       .subscribe((seconds) => {
         this.seconds = seconds;
         this.cdr.markForCheck();
@@ -42,7 +43,7 @@ export class TimerComponent implements OnInit, OnDestroy {
   startTimer(): void {
     interval(1000)
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         map(() => this.seconds--)
       )
       .subscribe((seconds) => {
@@ -58,10 +59,5 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
   success() {
     this.settingsService.changeMode('success');
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

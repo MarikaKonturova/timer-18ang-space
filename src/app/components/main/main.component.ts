@@ -3,11 +3,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EmbeddedViewRef,
-  OnDestroy,
   inject,
 } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Mode } from '../../models/mode.model';
 import { SecondsToMinSecPipe } from '../../pipes/seconds-to-min-sec.pipe';
 import { SettingsService } from '../../services/settings.service';
@@ -30,9 +28,7 @@ import { TimerComponent } from '../timer/timer.component';
 
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainComponent implements OnDestroy {
-  readonly destroy$ = new Subject<void>();
-
+export class MainComponent {
   components: Record<Mode, any> = {
     settings: SettingsComponent,
     timer: TimerComponent,
@@ -42,21 +38,13 @@ export class MainComponent implements OnDestroy {
   cdr = inject(ChangeDetectorRef);
   seconds = 0;
   mode!: Mode;
-  embeddedViewRefs: EmbeddedViewRef<
-    SettingsComponent | TimerComponent | SuccessComponent
-  >[] = [];
 
   constructor(private settingsService: SettingsService) {
     this.settingsService.getMode
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed())
       .subscribe((mode) => {
         this.mode = mode;
         this.cdr.markForCheck();
       });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }
