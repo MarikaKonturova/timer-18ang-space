@@ -14,7 +14,6 @@ import { SettingsComponent } from '../settings/settings.component';
 import { TimerComponent } from '../timer/timer.component';
 import { SuccessComponent } from '../success/success.component';
 import { SecondsToMinSecPipe } from '../../pipes/seconds-to-min-sec.pipe';
-import { SpacebgComponent } from '../spacebg/spacebg.component';
 
 @Component({
   selector: 'app-main',
@@ -24,7 +23,6 @@ import { SpacebgComponent } from '../spacebg/spacebg.component';
     SettingsComponent,
     SuccessComponent,
     SecondsToMinSecPipe,
-    SpacebgComponent,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -44,13 +42,15 @@ export class MainComponent implements OnDestroy, OnInit {
   cdr = inject(ChangeDetectorRef);
   seconds = 0;
   mode: 'settings' | 'timer' | 'success' = 'settings';
-  embeddedViewRefs: EmbeddedViewRef<any>[] = [];
+  embeddedViewRefs: EmbeddedViewRef<
+    SettingsComponent | TimerComponent | SuccessComponent
+  >[] = [];
+
   ngOnInit(): void {
     this.renderDyanmicTemplates();
   }
 
   private getTemplateRefs() {
-    console.log(this.mode);
     if (this.mode === 'success') {
       return this.successRef;
     } else if (this.mode === 'timer') {
@@ -63,24 +63,23 @@ export class MainComponent implements OnDestroy, OnInit {
     const templateRef = this.getTemplateRefs();
 
     this.containerRef.clear();
-    const embeddedViewRef = this.containerRef.createEmbeddedView(templateRef);
+    const embeddedViewRef = this.containerRef.createEmbeddedView<
+      SettingsComponent | TimerComponent | SuccessComponent
+    >(templateRef);
     this.embeddedViewRefs.push(embeddedViewRef);
     this.cdr.detectChanges();
   }
 
   start(minutes: number) {
     this.seconds = minutes * 60;
-    this.mode = 'timer';
-    this.renderDyanmicTemplates();
+    this.changeMode('timer');
   }
 
-  //fail and success session
   changeMode(mode: 'settings' | 'timer' | 'success') {
     this.mode = mode;
     this.renderDyanmicTemplates();
   }
   ngOnDestroy() {
-    // destroy embeddedViewRefs to avoid memory leak
     for (const viewRef of this.embeddedViewRefs) {
       if (viewRef) {
         viewRef.destroy();

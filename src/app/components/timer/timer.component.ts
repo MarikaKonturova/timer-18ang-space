@@ -17,8 +17,7 @@ import { SecondsToMinSecPipe } from '../../pipes/seconds-to-min-sec.pipe';
   imports: [SecondsToMinSecPipe],
   templateUrl: './timer.component.html',
   styleUrl: './timer.component.scss',
-  //Default или push,как проверить триггер на перерисовку
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class TimerComponent implements OnInit, OnDestroy {
   @Input() timer!: number;
@@ -42,7 +41,6 @@ export class TimerComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  //fail session
   cancel() {
     this.modeChange.emit('settings');
   }

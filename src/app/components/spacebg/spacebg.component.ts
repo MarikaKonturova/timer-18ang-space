@@ -9,7 +9,6 @@ import {
 @Component({
   selector: 'app-spacebg',
   standalone: true,
-  imports: [],
   template: ``,
   styleUrl: './spacebg.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

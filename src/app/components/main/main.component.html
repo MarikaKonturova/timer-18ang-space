@@ -1,7 +1,5 @@
-<div>
-  <h2>Countdown Timer</h2>
-</div>
-<app-spacebg></app-spacebg>
+
+<h2>Countdown Timer</h2>
 <ng-container #cont></ng-container>
 
 <ng-template #settings>
@@ -13,8 +11,5 @@
 </ng-template>
 
 <ng-template #success>
-  <app-success></app-success>
-  <button>Got it!</button>
+  <app-success (modeChange)="changeMode($event)"></app-success>
 </ng-template>
-
-<div class="space"></div>
