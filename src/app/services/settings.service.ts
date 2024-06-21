@@ -6,11 +6,11 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class SettingsService {
-  private mode = new BehaviorSubject<Mode>('settings');
+  private mode$ = new BehaviorSubject<Mode>('settings');
   changeMode(newMode: Mode) {
-    this.mode.next(newMode);
+    this.mode$.next(newMode);
   }
-  get getMode() {
-    return this.mode.asObservable();
+  get mode() {
+    return this.mode$.asObservable();
   }
 }

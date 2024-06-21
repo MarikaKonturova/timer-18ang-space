@@ -2,6 +2,6 @@
   <div class="container">
     <h2>Countdown Timer</h2>
     <app-display></app-display>
-    <ng-container *ngComponentOutlet="components[mode]"></ng-container>
+    <ng-container *ngComponentOutlet="components[(mode$ | async)!]"></ng-container>
   </div>
 </main>
