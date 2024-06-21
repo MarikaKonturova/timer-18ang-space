@@ -1,14 +1,31 @@
-<input
-  type="range"
-  min="0"
-  max="120"
-  [(ngModel)]="minutes"
-  (ngModelChange)="onInputChange()"
-/><span>
-  {{ minutes }}
-</span>
-<button (click)="start()">Start session</button>
-@if (error) {
+<div class="container">
+  @if (minutes>=80) {
+  <img
+    src="assets/images/manTimer80.png"
+    height="200px"
+    alt="the happiest man"
+  />
+
+  } @else if(minutes > 40){
+  <img src="assets/images/manTimer40.png" height="200px" alt="very happy man" />
+
+  }@else {
+  <img src="assets/images/manTimer.png" height="200px" alt="happy man" />
+  }
+  <div class="minutesContainer">
+    <input
+      type="range"
+      min="0"
+      max="120"
+      [(ngModel)]="minutes"
+      (ngModelChange)="onInputChange()"
+    /><span>
+      {{ minutes }}
+    </span>
+  </div>
+
+  <button (click)="start()">Start session</button>
+  @if (error) {
   <div class="errorContainer">
     <p>time is truly relative...</p>
     <img
@@ -19,3 +36,4 @@
     <p>...but not that much</p>
   </div>
   }
+</div>

@@ -37,7 +37,6 @@ export class MainComponent {
   };
 
   cdr = inject(ChangeDetectorRef);
-  seconds = 0;
   mode!: Mode;
 
   constructor(private settingsService: SettingsService) {

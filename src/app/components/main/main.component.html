@@ -1,24 +1,7 @@
 <main>
   <div class="container">
     <h2>Countdown Timer</h2>
-    @if (seconds >=80*60) {
-    <img
-      src="assets/images/manTimer80.png"
-      height="200px"
-      alt="the happiest man"
-    />
-
-    } @else if(seconds > 40*60){
-    <img
-      src="assets/images/manTimer40.png"
-      height="200px"
-      alt="very happy man"
-    />
-
-    }@else {
-    <img src="assets/images/manTimer.png" height="200px" alt="happy man" />
-    }
-
+   
     <ng-container *ngComponentOutlet="components[mode]"></ng-container>
   </div>
 </main>
