@@ -1,27 +1,28 @@
 <div class="container">
-
   <div class="minutesContainer">
     <input
       type="range"
       min="0"
       max="120"
+      class="slider"
       [(ngModel)]="minutes"
       (ngModelChange)="onInputChange()"
-    /><span>
-      {{ minutes }}
-    </span>
+    /><span> {{ minutes }} min </span>
   </div>
 
-  <button (click)="start()">Start session</button>
-  @if (error) {
-  <div class="errorContainer">
-    <p>time is truly relative...</p>
-    <img
-      src="./assets/images/einsteinIsImpressed.png"
-      class="errorImage"
-      alt="einstein was here but he was waiting you so long so he dissapeared"
-    />
-    <p>...but not that much</p>
+  <button (click)="start()" class="button">Start session</button>
+  <div [ngClass]="{ errorContainer: true, show: error, hide: !error }">
+    <div>
+      <p>time is truly relative...</p>
+      <img
+        src="./assets/images/einsteinIsImpressed.png"
+        class="errorImage"
+        height="112.5px"
+        alt=""
+      />
+      <p>...but not that much</p>
+    </div>
+
+    <button (click)="closeError()">x</button>
   </div>
-  }
 </div>

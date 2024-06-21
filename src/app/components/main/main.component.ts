@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Type } from '@angular/core';
 import { DisplayComponent } from 'components/display/display.component';
 import { SettingsComponent } from 'components/settings/settings.component';
 import { SuccessComponent } from 'components/success/success.component';
 import { TimerComponent } from 'components/timer/timer.component';
-import { Components } from 'models/components.model';
 import { Mode } from 'models/mode.model';
 import { SecondsToMinSecPipe } from 'pipes/seconds-to-min-sec.pipe';
 import { Observable } from 'rxjs';
@@ -27,7 +26,7 @@ import { SettingsService } from 'services/settings.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainComponent {
-  components: Record<Mode, Components> = {
+  components: Record<Mode, Type<unknown>> = {
     settings: SettingsComponent,
     timer: TimerComponent,
     success: SuccessComponent,

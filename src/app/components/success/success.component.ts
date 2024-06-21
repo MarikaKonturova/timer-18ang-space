@@ -6,8 +6,10 @@ import { SettingsService } from 'services/settings.service';
   standalone: true,
   imports: [],
   template: `
-    <p>congratulations! you did something, isn't that cool!</p>
-    <button (click)="backToMain()">Got it!</button>
+    <div class="container">
+      <p class="text">congratulations! you did something, isn't that cool!</p>
+      <button (click)="backToMain()" class="button">Got it!</button>
+    </div>
   `,
   styleUrl: './success.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

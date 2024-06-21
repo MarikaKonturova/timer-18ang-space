@@ -7,11 +7,11 @@ import {
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { interval, map } from 'rxjs';
+import { interval, takeWhile } from 'rxjs';
 
-import { TimerService } from 'services/timer.service';
-import { SettingsService } from 'services/settings.service';
 import { SecondsToMinSecPipe } from 'pipes/seconds-to-min-sec.pipe';
+import { SettingsService } from 'services/settings.service';
+import { TimerService } from 'services/timer.service';
 
 @Component({
   selector: 'app-timer',
@@ -22,15 +22,15 @@ import { SecondsToMinSecPipe } from 'pipes/seconds-to-min-sec.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimerComponent implements OnInit {
-  destroyRef = inject(DestroyRef);
   seconds = 0;
-  cdr = inject(ChangeDetectorRef);
 
+  cdr = inject(ChangeDetectorRef);
+  destroyRef = inject(DestroyRef);
   constructor(
     private settingsService: SettingsService,
     private timerService: TimerService
   ) {
-    this.timerService.getSeconds
+    this.timerService.seconds
       .pipe(takeUntilDestroyed())
       .subscribe((seconds) => {
         this.seconds = seconds;
@@ -45,13 +45,14 @@ export class TimerComponent implements OnInit {
     interval(1000)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        map(() => this.seconds--)
+        takeWhile(() => this.seconds > 0)
       )
-      .subscribe((seconds) => {
-        this.cdr.markForCheck();
-        if (seconds === 0) {
-          this.success();
-        }
+      .subscribe({
+        next: () => {
+          this.seconds--;
+          this.cdr.markForCheck();
+        },
+        complete: () => (this.seconds > 0 ? this.cancel() : this.success()),
       });
   }
 
