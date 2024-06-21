@@ -1,11 +1,7 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DisplayComponent } from 'components/display/display.component';
 import { SettingsComponent } from 'components/settings/settings.component';
 import { SuccessComponent } from 'components/success/success.component';
 import { TimerComponent } from 'components/timer/timer.component';
@@ -23,6 +19,7 @@ import { SettingsService } from 'services/settings.service';
     SuccessComponent,
     SecondsToMinSecPipe,
     CommonModule,
+    DisplayComponent,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -36,7 +33,6 @@ export class MainComponent {
     success: SuccessComponent,
   };
 
-  cdr = inject(ChangeDetectorRef);
   mode!: Mode;
 
   constructor(private settingsService: SettingsService) {
@@ -44,7 +40,6 @@ export class MainComponent {
       .pipe(takeUntilDestroyed())
       .subscribe((mode) => {
         this.mode = mode;
-        this.cdr.markForCheck();
       });
   }
 }
