@@ -49,6 +49,7 @@
 
   opacity: 0;
   transform: translateY(999px);
+  transition: opacity 0.1s, transform 0.7s;
 
   &.show {
     opacity: 1;

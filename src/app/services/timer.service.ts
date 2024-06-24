@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class TimerService {
-  private seconds$ = new BehaviorSubject<number>(0);
+  seconds$ = new BehaviorSubject<number>(0);
 
   changeSeconds(seconds: number) {
     this.seconds$.next(seconds);

@@ -2,16 +2,12 @@
   <div
     class="range"
     #range
-    (mousedown)="mode === 'settings' && rangeSliderStart()"
-    (touchstart)="mode === 'settings' && rangeSliderStart()"
-    (mousemove)="
-      mode === 'settings' && canSlide && updatePointsFromStyles($event)
-    "
-    (touchmove)="
-      mode === 'settings' && canSlide && updatePointsFromStyles($event)
-    "
-    (mouseup)="mode === 'settings' && rangeSliderStop()"
-    (touchend)="mode === 'settings' && rangeSliderStop()"
+    (mousedown)="rangeSliderStart()"
+    (touchstart)="rangeSliderStart()"
+    (mousemove)="updatePointsFromStyles($event)"
+    (touchmove)="updatePointsFromStyles($event)"
+    (mouseup)="rangeSliderStop()"
+    (touchend)="rangeSliderStop()"
   >
     <input
       type="range"

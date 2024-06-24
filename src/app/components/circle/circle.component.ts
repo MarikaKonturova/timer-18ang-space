@@ -9,10 +9,9 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Mode } from 'models/mode.model';
+import { filter, withLatestFrom } from 'rxjs';
 import { SettingsService } from 'services/settings.service';
 import { TimerService } from 'services/timer.service';
-import { SecondsToMinSecPipe } from '../../pipes/seconds-to-min-sec.pipe';
-import { combineLatest, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-circle',
@@ -20,7 +19,7 @@ import { combineLatest, distinctUntilChanged } from 'rxjs';
   templateUrl: './circle.component.html',
   styleUrl: './circle.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, NgClass, SecondsToMinSecPipe],
+  imports: [FormsModule, NgClass],
 })
 export class CircleComponent {
   private lastPosition = 0;
@@ -29,9 +28,6 @@ export class CircleComponent {
   @ViewChild('range') rangeElement!: ElementRef;
   @ViewChild('dial') dialElement!: ElementRef;
   canSlide = false;
-
-  //zaglushka chto delat'
-  private renderedSlider = false;
   minutes = 0;
   mode!: Mode;
 
@@ -42,51 +38,48 @@ export class CircleComponent {
   ) {
     const mode$ = this.settingsService.mode;
     const seconds$ = this.timerService.seconds;
-    combineLatest([mode$, seconds$])
-      .pipe(takeUntilDestroyed(), distinctUntilChanged())
-      .subscribe(([mode, seconds]) => {
-        if (mode !== this.mode) {
-          this.renderedSlider = false;
-        }
+    seconds$
+      .pipe(
+        withLatestFrom(mode$),
+        filter(([seconds, mode]) => {
+          //because timer will be with 59 seconds already
+          return mode === 'timer' ? seconds % 60 === 59 : true;
+        }),
+        takeUntilDestroyed()
+      )
+      .subscribe(([seconds, mode]) => {
         this.mode = mode;
         this.minutes = Math.floor(seconds / 60);
-        //i'm not sure about this, cause it's run when the mode is settings and seconds === 0 and i get typeerror 'rangeElement' is undefined so i did additional check on the element existence
-        const canceledTimerCase =
-          mode === 'settings' && seconds === 0 && this.rangeElement;
 
-        if (mode === 'timer') {
-          if (!this.renderedSlider) {
-            this.renderedSlider = true;
-          } else {
-            console.log('blabla');
-            this.updateStylesFromPoints(this.minutes);
-          }
-        } else if (canceledTimerCase) {
+        if (mode === 'timer' || (seconds === 0 && this.rangeElement)) {
           this.updateStylesFromPoints(this.minutes);
         }
       });
   }
 
   rangeSliderStart(): void {
+    if (this.mode !== 'settings') return;
     this.canSlide = true;
   }
   rangeSliderStop(): void {
+    if (this.mode !== 'settings') return;
     this.canSlide = false;
   }
 
   updatePointsFromStyles(event: MouseEvent | TouchEvent): void {
+    if (this.mode !== 'settings' || !this.canSlide) return;
+
     const position = this.pointerEvents(event);
     const range = this.rangeElement.nativeElement;
 
-    //calculations to define deg, prevVal and lastPosition of pointer
     const coords = {
       x: position.x - range.offsetLeft,
       y: position.y - range.offsetTop,
     };
+
     const radius = range.offsetWidth / 2;
     const atan = Math.atan2(coords.x - radius, coords.y - radius);
     let deg = Math.ceil(-atan / (Math.PI / 180) + 180);
-
     if (this.prevVal <= 1 && this.lastPosition - position.x >= 0) deg = 0;
     if (this.prevVal >= 359 && this.lastPosition - position.x <= 0) deg = 360;
     this.prevVal = deg;
@@ -95,20 +88,19 @@ export class CircleComponent {
     // change value from service and render
     const points = Math.ceil((deg * this.maxPoints) / 360);
     this.timerService.changeSeconds(points * 60);
-    this.renderStyle(radius, deg);
+    this.renderStyle(radius, points);
   }
 
   updateStylesFromPoints(points: number) {
     const range = this.rangeElement.nativeElement;
     const radius = range.offsetWidth / 2;
 
-    // Convert points to degrees
-    const deg = Math.ceil((points * 360) / this.maxPoints);
-
-    this.renderStyle(radius, deg);
+    this.renderStyle(radius, points);
   }
 
-  renderStyle(radius: number, deg: number) {
+  renderStyle(radius: number, points: number) {
+    const deg = (points * 360) / this.maxPoints;
+
     const range = this.rangeElement.nativeElement;
     const dial = this.dialElement.nativeElement;
     const x =
@@ -134,8 +126,6 @@ export class CircleComponent {
         'rotate(0)'
       );
     } else {
-      //in the else block there is render bug
-
       this.renderer.setStyle(
         range.querySelector('.right .blocker'),
         'transform',

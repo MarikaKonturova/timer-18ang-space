@@ -1,9 +1,8 @@
 <div class="container">
- 
   <span class="count"> {{ minutes }} min </span>
   <button (click)="start()" class="button">Start session</button>
 </div>
-<div [ngClass]="{ errorContainer: true, show: error, hide: !error }">
+<div class="errorContainer" [ngClass]="error ? 'show' : 'hide'">
   <div>
     <p>time is truly relative...</p>
     <img
