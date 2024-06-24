@@ -1,0 +1,36 @@
+<div class="container">
+  <div
+    class="range"
+    #range
+    (mousedown)="mode === 'settings' && rangeSliderStart()"
+    (touchstart)="mode === 'settings' && rangeSliderStart()"
+    (mousemove)="
+      mode === 'settings' && canSlide && updatePointsFromStyles($event)
+    "
+    (touchmove)="
+      mode === 'settings' && canSlide && updatePointsFromStyles($event)
+    "
+    (mouseup)="mode === 'settings' && rangeSliderStop()"
+    (touchend)="mode === 'settings' && rangeSliderStop()"
+  >
+    <input
+      type="range"
+      name="points"
+      min="0"
+      max="120"
+      [(ngModel)]="minutes"
+      (ngModelChange)="(updatePointsFromStyles)"
+      [disabled]="mode !== 'settings'"
+      class="count"
+    />
+    <div class="slice left">
+      <div class="blocker"></div>
+    </div>
+    <div class="slice right">
+      <div class="blocker"></div>
+    </div>
+    <span class="info"> </span>
+    <div #dial class="dial" tabindex="0"></div>
+  </div>
+  <div class="container_count"></div>
+</div>

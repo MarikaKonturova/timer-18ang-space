@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Type } from '@angular/core';
+import { CircleComponent } from 'components/circle/circle.component';
 import { DisplayComponent } from 'components/display/display.component';
 import { SettingsComponent } from 'components/settings/settings.component';
 import { SuccessComponent } from 'components/success/success.component';
@@ -19,6 +20,7 @@ import { SettingsService } from 'services/settings.service';
     SecondsToMinSecPipe,
     CommonModule,
     DisplayComponent,
+    CircleComponent,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',

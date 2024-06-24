@@ -1,3 +1,10 @@
 .container {
   height: max(400px, fit-content);
+  position: absolute;
+  top: calc(50% - 200px);
+  z-index: 100;
+  left: calc(50% - 130px);
+  img {
+    user-select: none;
+  }
 }

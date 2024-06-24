@@ -1,8 +1,15 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { SettingsService } from 'services/settings.service';
 import { TimerService } from 'services/timer.service';
-import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-settings',
@@ -13,26 +20,29 @@ import { NgClass } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsComponent implements OnInit {
-  minutes = 0;
+  minutes!: number;
   error = false;
-
+  cdr = inject(ChangeDetectorRef);
   constructor(
     private settingsService: SettingsService,
     private timerService: TimerService
-  ) {}
-
+  ) {
+    this.timerService.seconds
+      .pipe(takeUntilDestroyed())
+      .subscribe((seconds) => {
+        if (this.minutes === 0 && this.error) {
+          this.closeError();
+        }
+        this.minutes = Math.floor(seconds / 60);
+        this.cdr.markForCheck();
+      });
+  }
   ngOnInit(): void {
     this.timerService.changeSeconds(0);
   }
-  onInputChange() {
-    if (this.error && this.minutes > 0) {
-      this.error = false;
-    }
-    //can we do it so much time or there is another solution?
-    this.timerService.changeSeconds(this.minutes * 60);
-  }
+
   start() {
-    if (this.minutes === 0) {
+    if (this.minutes === 0 && !this.error) {
       this.error = true;
     } else {
       this.settingsService.changeMode('timer');

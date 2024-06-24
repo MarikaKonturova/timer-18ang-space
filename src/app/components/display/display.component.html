@@ -1,3 +1,9 @@
 <div class="container">
-  <img [ngSrc]="manTimerImg" height="400" priority width="600" alt="the happiest man" />
+  <img
+    [ngSrc]="(seconds$ | async)! | imageFromTimer : manTimerImg"
+    height="200"
+    priority
+    width="300"
+    alt="the happiest man"
+  />
 </div>

@@ -23,7 +23,6 @@ import { TimerService } from 'services/timer.service';
 })
 export class TimerComponent implements OnInit {
   seconds = 0;
-
   cdr = inject(ChangeDetectorRef);
   destroyRef = inject(DestroyRef);
   constructor(
@@ -34,7 +33,6 @@ export class TimerComponent implements OnInit {
       .pipe(takeUntilDestroyed())
       .subscribe((seconds) => {
         this.seconds = seconds;
-        this.cdr.markForCheck();
       });
   }
 
@@ -49,7 +47,7 @@ export class TimerComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          this.seconds--;
+          this.timerService.changeSeconds(this.seconds - 1);
           this.cdr.markForCheck();
         },
         complete: () => (this.seconds > 0 ? this.cancel() : this.success()),

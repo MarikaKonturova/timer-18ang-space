@@ -1,7 +1,7 @@
 <main>
   <div class="container">
-    <h2>Countdown Timer</h2>
     <app-display></app-display>
+    <app-circle></app-circle>
     <ng-container
       *ngComponentOutlet="components[(mode$ | async)!]"
     ></ng-container>
