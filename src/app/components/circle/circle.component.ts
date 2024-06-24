@@ -22,8 +22,6 @@ import { TimerService } from 'services/timer.service';
   imports: [FormsModule, NgClass],
 })
 export class CircleComponent {
-  private lastPosition = 0;
-  private prevVal = 0;
   private maxPoints = 120;
   @ViewChild('range') rangeElement!: ElementRef;
   @ViewChild('dial') dialElement!: ElementRef;
@@ -80,10 +78,6 @@ export class CircleComponent {
     const radius = range.offsetWidth / 2;
     const atan = Math.atan2(coords.x - radius, coords.y - radius);
     let deg = Math.ceil(-atan / (Math.PI / 180) + 180);
-    if (this.prevVal <= 1 && this.lastPosition - position.x >= 0) deg = 0;
-    if (this.prevVal >= 359 && this.lastPosition - position.x <= 0) deg = 360;
-    this.prevVal = deg;
-    this.lastPosition = position.x;
 
     // change value from service and render
     const points = Math.ceil((deg * this.maxPoints) / 360);
@@ -114,25 +108,15 @@ export class CircleComponent {
     this.renderer.setStyle(dial, 'transform', `translate(${x}, ${y})`);
 
     // Show range progress
+    const rightBlocker = range.querySelector('.right .blocker');
+    const leftBlocker = range.querySelector('.left .blocker');
     if (deg <= 180) {
-      this.renderer.setStyle(
-        range.querySelector('.right .blocker'),
-        'transform',
-        `rotate(${deg}deg)`
-      );
-      this.renderer.setStyle(
-        range.querySelector('.left .blocker'),
-        'transform',
-        'rotate(0)'
-      );
+      this.renderer.setStyle(rightBlocker, 'transform', `rotate(${deg}deg)`);
+      this.renderer.setStyle(leftBlocker, 'transform', 'rotate(0)');
     } else {
+      this.renderer.setStyle(rightBlocker, 'transform', 'rotate(180deg)');
       this.renderer.setStyle(
-        range.querySelector('.right .blocker'),
-        'transform',
-        'rotate(180deg)'
-      );
-      this.renderer.setStyle(
-        range.querySelector('.left .blocker'),
+        leftBlocker,
         'transform',
         `rotate(${deg - 180}deg)`
       );
