@@ -6,7 +6,6 @@
 - fix circle on mobile
 - accelerate uploading of images
 - localstorage for saving time data in timer
-- create a slider to choose the type of image to set timer with
 - maybe json-placeholder {[id]:{complete:{time, count}, successful: {time, count}}} or firebase (will be from(promise))
 - maybe table with showing data about all sessions
 

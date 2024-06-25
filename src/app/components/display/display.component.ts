@@ -1,5 +1,5 @@
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ImageFromTimerPipe } from 'pipes/image-from-timer.pipe';
 import { Observable } from 'rxjs';
 import { TimerService } from 'services/timer.service';
@@ -14,8 +14,8 @@ import { TimerService } from 'services/timer.service';
 })
 export class DisplayComponent {
   seconds$: Observable<number>;
-  manTimerImg = 'assets/images/manTimer.png';
-
+  //manTimerImg = 'assets/images/manTimer.png';
+  @Input() imgSrc!: string;
   constructor(private timerService: TimerService) {
     this.seconds$ = this.timerService.seconds;
   }

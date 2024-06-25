@@ -1,0 +1,11 @@
+<div class="container">
+  <button (click)="leftClick()" class="button">
+    <img src="assets/icons/arrow-left.svg" alt="" width="50px" />
+  </button>
+
+  <app-display [imgSrc]="imageToDisplay()"></app-display>
+  <app-circle></app-circle>
+  <button (click)="rightClick()" class="button">
+    <img src="assets/icons/arrow-right.svg" alt="" width="50px" />
+  </button>
+</div>

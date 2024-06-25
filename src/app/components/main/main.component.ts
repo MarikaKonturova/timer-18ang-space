@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, Type } from '@angular/core';
 import { CircleComponent } from 'components/circle/circle.component';
 import { DisplayComponent } from 'components/display/display.component';
 import { SettingsComponent } from 'components/settings/settings.component';
+import { SliderWrapperComponent } from 'components/slider-wrapper/slider-wrapper.component';
 import { SuccessComponent } from 'components/success/success.component';
 import { TimerComponent } from 'components/timer/timer.component';
 import { Mode } from 'models/mode.model';
@@ -19,8 +20,7 @@ import { SettingsService } from 'services/settings.service';
     SuccessComponent,
     SecondsToMinSecPipe,
     CommonModule,
-    DisplayComponent,
-    CircleComponent,
+    SliderWrapperComponent,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',

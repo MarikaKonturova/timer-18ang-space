@@ -32,6 +32,7 @@ module.exports = tseslint.config(
         },
       ],
       "prefer-const": "off",
+      "@angular-eslint/template/interactive-supports-focus": "off",
     },
   },
   {

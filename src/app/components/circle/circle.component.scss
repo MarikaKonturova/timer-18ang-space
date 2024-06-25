@@ -4,20 +4,6 @@ $range__size: 486px;
 $range__width: 26.7px;
 $dial__size: 69px;
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-}
-.container_count {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-}
 .range {
   border-radius: 50%;
   display: table;

@@ -1,7 +1,7 @@
 <main>
   <div class="container">
-    <app-display></app-display>
-    <app-circle></app-circle>
+    <app-slider-wrapper> </app-slider-wrapper>
+
     <ng-container
       *ngComponentOutlet="components[(mode$ | async)!]"
     ></ng-container>
